@@ -1,0 +1,15 @@
+<button (click)="toggleAccountRegistration()">
+  <span *ngIf="isAccountRegistration">Iniciar sesión</span>
+  <span *ngIf="!isAccountRegistration">Crear nueva cuenta</span>
+</button>
+
+<div *ngIf="!isAccountRegistration">
+  <button (click)="loginWithGoogle()">Iniciar sesión con Google</button>
+</div>
+
+<div *ngIf="isAccountRegistration">
+  <form [formGroup]="registerForm" (ngSubmit)="registerNewAccount()">
+    <input type="text" formControlName="nickname" />
+    <button type="submit">Registrar</button>
+  </form>
+</div>
