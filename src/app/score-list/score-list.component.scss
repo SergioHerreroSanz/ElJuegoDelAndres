@@ -1,0 +1,10 @@
+.score-list {
+  &__table-head td {
+    text-align: center;
+  }
+
+  &__score-button {
+    display: inline-block;
+    transform: rotate(90deg);
+  }
+}

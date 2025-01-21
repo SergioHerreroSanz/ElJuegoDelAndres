@@ -1,12 +1,30 @@
+<div>
+  <button (click)="logout()">Logout</button>
+</div>
+
 <table *ngIf="players$ | async as players">
-  <thead>
+  <thead class="score-list__table-head">
     <td>Nombre</td>
     <td>Puntuación</td>
   </thead>
   <tbody>
     <tr *ngFor="let player of players">
       <td>{{ player.name }}</td>
-      <td>{{ player.score / 100 | number : "1.2-2" }} €</td>
+      <td class="score-list__score">
+        <button
+          (click)="increaseScore(player)"
+          class="score-list__score-button"
+        >
+          <
+        </button>
+        <span> {{ player.score / 100 | number : "1.2-2" }} € </span>
+        <button
+          (click)="decreaseScore(player)"
+          class="score-list__score-button"
+        >
+          >
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>

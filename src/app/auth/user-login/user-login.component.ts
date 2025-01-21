@@ -1,21 +1,14 @@
-import { Component } from '@angular/core';
-import { EjdaFirebaseService } from '../../shared/firebase/firebase.service';
-import {
-  GoogleAuthProvider,
-  OAuthCredential,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  User,
-} from 'firebase/auth';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Subscription, take } from 'rxjs';
 import { Router } from '@angular/router';
+import { Subscription, take } from 'rxjs';
+import { EjdaFirebaseService } from '../../shared/firebase/firebase.service';
 
 @Component({
   selector: 'ejda-user-login',
@@ -41,7 +34,9 @@ export class EjdaUserLoginComponent {
       this.firebaseService
         .loginWithGoogle()
         .pipe(take(1))
-        .subscribe(() => this.router.navigate(['scores']))
+        .subscribe(() => {
+          this.router.navigate(['scores']);
+        })
     );
   }
 

@@ -1,10 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
-import { EjdaFirebaseService } from '../shared/firebase/firebase.service';
-import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { from, map, Observable, of, switchMap, tap } from 'rxjs';
-import { EjdaPlayer, PLAYERS_COLLECTION_NAME } from './score-list.model';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { EjdaFirebaseService } from '../shared/firebase/firebase.service';
+import { EjdaPlayer } from './score-list.model';
 
 @Component({
   selector: 'ejda-score-list',
@@ -17,5 +15,17 @@ export class EjdaScoreListComponent {
 
   constructor(private readonly firebaseService: EjdaFirebaseService) {
     this.players$ = this.firebaseService.getPlayers();
+  }
+
+  increaseScore(player: EjdaPlayer) {
+    this.firebaseService.modifyPlayerScore(player.id, player.score + 10);
+  }
+
+  decreaseScore(player: EjdaPlayer) {
+    this.firebaseService.modifyPlayerScore(player.id, player.score - 10);
+  }
+
+  logout() {
+    this.firebaseService.logout();
   }
 }

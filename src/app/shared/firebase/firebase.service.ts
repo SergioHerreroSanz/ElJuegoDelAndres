@@ -2,23 +2,38 @@ import { Injectable } from '@angular/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
   Auth,
+  browserLocalPersistence,
   getAuth,
   GoogleAuthProvider,
+  onAuthStateChanged,
+  setPersistence,
   signInWithPopup,
+  signOut,
   User,
 } from 'firebase/auth';
-import { Router } from '@angular/router';
-import { environment } from '../../../../environments/environment';
-import { from, map, Observable, catchError, of, switchMap, take } from 'rxjs';
 import {
-  addDoc,
   collection,
   CollectionReference,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   setDoc,
+  updateDoc,
 } from 'firebase/firestore';
+import {
+  BehaviorSubject,
+  catchError,
+  filter,
+  from,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import {
   EjdaPlayer,
   PLAYERS_COLLECTION_NAME,
@@ -28,78 +43,136 @@ import {
   providedIn: 'root',
 })
 export class EjdaFirebaseService {
-  private googleProvider = new GoogleAuthProvider();
+  private readonly googleProvider = new GoogleAuthProvider();
 
-  app: FirebaseApp;
+  private readonly app: FirebaseApp;
   private readonly auth: Auth;
   private readonly playersRef: CollectionReference;
 
-  private googleUser?: User;
-  private googleToken?: string;
+  readonly user$: BehaviorSubject<User | null | undefined> =
+    new BehaviorSubject<User | null | undefined>(undefined);
+  private readonly players$: BehaviorSubject<EjdaPlayer[]> =
+    new BehaviorSubject<EjdaPlayer[]>([]);
 
-  constructor(private readonly router: Router) {
+  constructor() {
+    // constructor(private readonly router: Router) {
     this.app = initializeApp(environment.firebaseConfig);
     this.auth = getAuth(this.app);
+
     this.playersRef = collection(
       getFirestore(this.app),
       PLAYERS_COLLECTION_NAME
     );
+
+    onAuthStateChanged(this.auth, (user) => this.user$.next(user));
   }
 
   loginWithGoogle(): Observable<User> {
-    return from(signInWithPopup(this.auth, this.googleProvider)).pipe(
-      map((result) => {
-        this.googleToken =
-          GoogleAuthProvider.credentialFromResult(result)?.accessToken;
-        this.googleUser = result.user;
-        return result.user;
-      }),
-      catchError((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        console.error(
-          `Error ${errorCode} for email "${email}": ${errorMessage}`
+    return this.getGoogleUserFromPopup().pipe(
+      switchMap((user) => {
+        return this.getPlayers().pipe(
+          filter((p) => !!p.length),
+          take(1),
+          map((players) => players.find((player) => player.id === user.email)),
+          switchMap((player) => {
+            if (player) {
+              return of(user);
+            } else {
+              this.logout();
+              throw new Error('User not registered. Try registering first');
+            }
+          })
         );
-        // TODO: Add login error warning
-        return of(error);
       })
     );
   }
 
-  getUserEmail(): string | null {
-    return this.googleUser?.email || null;
+  registerWithGoogle(nickname: string): Observable<User> {
+    return this.getGoogleUserFromPopup().pipe(
+      switchMap((user) =>
+        this.getPlayers().pipe(
+          filter((p) => !!p.length),
+          take(1),
+          map((players) => players.find((player) => player.id === user.email)),
+          switchMap((player) => {
+            // This code wil update the user nickname if account already exists
+            this.savePlayer(user.email!, nickname, player?.score ?? 0);
+            return of(user);
+          })
+        )
+      ),
+      catchError((e) => this.throwGoogleError(e))
+    );
   }
 
-  registerWithGoogle(nickname: string) {
-    return this.loginWithGoogle().pipe(
-      take(1),
-      switchMap((user) =>
-        // TODO: Add mesage "User registered succesfully"
-        // if account already exists, doc will set score to 0 and save the new nickname
-        setDoc(
-          doc(getFirestore(this.app), PLAYERS_COLLECTION_NAME, user.email!),
-          {
-            name: nickname,
-            score: 0,
-          }
+  throwGoogleError(e: any): Observable<User> {
+    throw new Error(
+      `Error ${e?.code} for email "${e?.customData?.email}": ${e.message}`
+    );
+  }
+
+  getGoogleUserFromPopup(): Observable<User> {
+    return from(setPersistence(this.auth, browserLocalPersistence)).pipe(
+      switchMap(() =>
+        from(signInWithPopup(this.auth, this.googleProvider)).pipe(
+          map((googleUser) => googleUser.user),
+          catchError((e) => this.throwGoogleError(e))
         )
       )
     );
   }
 
-  getPlayers(): Observable<EjdaPlayer[]> {
-    return of(collection(getFirestore(this.app), PLAYERS_COLLECTION_NAME)).pipe(
-      switchMap((collectionRef) => getDocs(collectionRef)),
-      map((docs) =>
-        docs.docs.map(
-          (doc) =>
-            ({
-              id: doc.id,
-              ...doc.data(),
-            } as EjdaPlayer)
-        )
+  logout(): void {
+    from(signOut(this.auth))
+      .pipe(take(1))
+      // .subscribe(() => this.router.navigate(['/']));
+      .subscribe();
+  }
+
+  savePlayer(email: string, nickname: string, score: number): void {
+    setDoc(doc(getFirestore(this.app), PLAYERS_COLLECTION_NAME, email), {
+      name: nickname,
+      score: score,
+    });
+  }
+
+  modifyPlayerScore(email: string, value: number): void {
+    const playerDocRef = doc(this.playersRef, email);
+
+    from(getDoc(playerDocRef))
+      .pipe(
+        switchMap((doc) => {
+          if (doc.exists()) {
+            return from(updateDoc(playerDocRef, { score: value }));
+          } else {
+            throw new Error(
+              'User not found while trying to modify player score'
+            );
+          }
+        }),
+        take(1)
       )
+      .subscribe(() => this.loadPlayers());
+  }
+
+  loadPlayers(): void {
+    from(getDocs(this.playersRef))
+      .pipe(
+        map((docs) =>
+          docs.docs.map((doc) => ({ id: doc.id, ...doc.data() } as EjdaPlayer))
+        ),
+        take(1)
+      )
+      .subscribe((players) => this.players$.next(players));
+  }
+
+  getPlayers(): Observable<EjdaPlayer[]> {
+    return this.players$.pipe(
+      tap((players) => {
+        if (!players.length) {
+          this.loadPlayers();
+        }
+      })
     );
   }
 }
