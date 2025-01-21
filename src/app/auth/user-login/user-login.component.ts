@@ -17,7 +17,7 @@ import { EjdaFirebaseService } from '../../shared/firebase/firebase.service';
   styleUrl: './user-login.component.scss',
 })
 export class EjdaUserLoginComponent {
-  isAccountRegistration = false;
+  isLogin = true;
   readonly registerForm;
   private readonly subscription = new Subscription();
 
@@ -40,10 +40,6 @@ export class EjdaUserLoginComponent {
     );
   }
 
-  toggleAccountRegistration() {
-    this.isAccountRegistration = !this.isAccountRegistration;
-  }
-
   registerNewAccount() {
     if (this.registerForm.valid && this.registerForm.value.nickname) {
       this.subscription.add(
@@ -55,5 +51,9 @@ export class EjdaUserLoginComponent {
           })
       );
     }
+  }
+
+  toggleAccountRegistration() {
+    this.isLogin = !this.isLogin;
   }
 }

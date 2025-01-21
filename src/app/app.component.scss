@@ -1,0 +1,34 @@
+.ejda-header {
+  z-index: 1;
+  width: 100%;
+  top: 0;
+  position: sticky;
+  padding: 8px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+
+  &__title {
+    font-size: 2rem;
+    text-align: center;
+    padding: 0px 5rem;
+  }
+
+  &__logout {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.ejda-body {
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 1rem;
+  border: dashed;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+}

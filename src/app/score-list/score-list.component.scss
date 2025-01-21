@@ -1,6 +1,22 @@
 .score-list {
-  &__table-head td {
+  &__table {
+    width: 100%;
+  }
+
+  &__table-head td,
+  &__score {
     text-align: center;
+  }
+
+  &__table-head {
+    td:first-child {
+      width: 65%;
+    }
+
+    td {
+      font-weight: bold;
+      padding-bottom: 0.5rem;
+    }
   }
 
   &__score-button {

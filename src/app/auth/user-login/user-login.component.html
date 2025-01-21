@@ -1,15 +1,24 @@
-<button (click)="toggleAccountRegistration()">
-  <span *ngIf="isAccountRegistration">Iniciar sesión</span>
-  <span *ngIf="!isAccountRegistration">Crear nueva cuenta</span>
-</button>
-
-<div *ngIf="!isAccountRegistration">
+<div *ngIf="isLogin" class="user-login__login">
   <button (click)="loginWithGoogle()">Iniciar sesión con Google</button>
+  <p class="user-login__toggle">
+    ¿Aún no tienes cuenta? Prueba a
+    <span (click)="toggleAccountRegistration()">registrarte</span>
+  </p>
 </div>
 
-<div *ngIf="isAccountRegistration">
-  <form [formGroup]="registerForm" (ngSubmit)="registerNewAccount()">
+<form
+  *ngIf="!isLogin"
+  [formGroup]="registerForm"
+  (ngSubmit)="registerNewAccount()"
+  class="user-login__register"
+>
+  <label>
+    Nombre de usuario:
     <input type="text" formControlName="nickname" />
-    <button type="submit">Registrar</button>
-  </form>
-</div>
+  </label>
+  <button type="submit">Registrarme</button>
+  <p class="user-login__toggle">
+    ¿Ya tienes cuenta?
+    <span (click)="toggleAccountRegistration()">Inicia sesion</span>
+  </p>
+</form>

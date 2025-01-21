@@ -14,6 +14,7 @@ export class EjdaScoreListComponent {
   players$?: Observable<EjdaPlayer[]>;
 
   constructor(private readonly firebaseService: EjdaFirebaseService) {
+    this.firebaseService.loadPlayers();
     this.players$ = this.firebaseService.getPlayers();
   }
 
@@ -23,9 +24,5 @@ export class EjdaScoreListComponent {
 
   decreaseScore(player: EjdaPlayer) {
     this.firebaseService.modifyPlayerScore(player.id, player.score - 10);
-  }
-
-  logout() {
-    this.firebaseService.logout();
   }
 }
