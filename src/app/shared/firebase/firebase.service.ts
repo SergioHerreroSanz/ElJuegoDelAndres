@@ -19,6 +19,7 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  increment,
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
@@ -135,14 +136,16 @@ export class EjdaFirebaseService {
     });
   }
 
-  modifyPlayerScore(email: string, value: number): void {
+  modifyPlayerScore(email: string, valueToAdd: number): void {
     const playerDocRef = doc(this.playersRef, email);
 
     from(getDoc(playerDocRef))
       .pipe(
         switchMap((doc) => {
           if (doc.exists()) {
-            return from(updateDoc(playerDocRef, { score: value }));
+            return from(
+              updateDoc(playerDocRef, { score: increment(valueToAdd) })
+            );
           } else {
             throw new Error(
               'User not found while trying to modify player score'

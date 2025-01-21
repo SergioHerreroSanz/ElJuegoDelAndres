@@ -19,10 +19,10 @@ export class EjdaScoreListComponent {
   }
 
   increaseScore(player: EjdaPlayer) {
-    this.firebaseService.modifyPlayerScore(player.id, player.score + 10);
+    this.firebaseService.modifyPlayerScore(player.id, 10);
   }
 
   decreaseScore(player: EjdaPlayer) {
-    this.firebaseService.modifyPlayerScore(player.id, player.score - 10);
+    this.firebaseService.modifyPlayerScore(player.id, -10);
   }
 }
