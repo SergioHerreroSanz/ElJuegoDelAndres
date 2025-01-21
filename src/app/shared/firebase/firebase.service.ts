@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
   Auth,
@@ -54,8 +55,7 @@ export class EjdaFirebaseService {
   private readonly players$: BehaviorSubject<EjdaPlayer[]> =
     new BehaviorSubject<EjdaPlayer[]>([]);
 
-  constructor() {
-    // constructor(private readonly router: Router) {
+  constructor(private readonly router: Router) {
     this.app = initializeApp(environment.firebaseConfig);
     this.auth = getAuth(this.app);
 
@@ -125,8 +125,7 @@ export class EjdaFirebaseService {
   logout(): void {
     from(signOut(this.auth))
       .pipe(take(1))
-      // .subscribe(() => this.router.navigate(['/']));
-      .subscribe();
+      .subscribe(() => this.router.navigate(['login']));
   }
 
   savePlayer(email: string, nickname: string, score: number): void {
