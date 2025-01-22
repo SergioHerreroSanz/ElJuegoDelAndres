@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { EjdaFirebaseService } from '../shared/firebase/firebase.service';
 import { EjdaPlayer } from './score-list.model';
 
+export const SCORE_INCREMENT = 10;
+
 @Component({
   selector: 'ejda-score-list',
   imports: [CommonModule],
@@ -14,15 +16,15 @@ export class EjdaScoreListComponent {
   players$?: Observable<EjdaPlayer[]>;
 
   constructor(private readonly firebaseService: EjdaFirebaseService) {
-    this.firebaseService.loadPlayers();
     this.players$ = this.firebaseService.getPlayers();
   }
 
   increaseScore(player: EjdaPlayer) {
-    this.firebaseService.modifyPlayerScore(player.id, 10);
+    this.firebaseService.modifyPlayerScore(player.id, SCORE_INCREMENT);
   }
 
   decreaseScore(player: EjdaPlayer) {
-    this.firebaseService.modifyPlayerScore(player.id, -10);
+    if (player.score >= SCORE_INCREMENT)
+      this.firebaseService.modifyPlayerScore(player.id, -SCORE_INCREMENT);
   }
 }

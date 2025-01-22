@@ -17,11 +17,11 @@ import {
   CollectionReference,
   doc,
   getDoc,
-  getDocs,
   getFirestore,
   increment,
+  onSnapshot,
   setDoc,
-  updateDoc,
+  updateDoc
 } from 'firebase/firestore';
 import {
   BehaviorSubject,
@@ -154,25 +154,24 @@ export class EjdaFirebaseService {
         }),
         take(1)
       )
-      .subscribe(() => this.loadPlayers());
+      .subscribe();
   }
 
-  loadPlayers(): void {
-    from(getDocs(this.playersRef))
-      .pipe(
-        map((docs) =>
-          docs.docs.map((doc) => ({ id: doc.id, ...doc.data() } as EjdaPlayer))
-        ),
-        take(1)
-      )
-      .subscribe((players) => this.players$.next(players));
+  listenPlayers(): void {
+    onSnapshot(this.playersRef, (snapshot) => {
+      const players = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as EjdaPlayer[];
+      this.players$.next(players);
+    });
   }
 
   getPlayers(): Observable<EjdaPlayer[]> {
     return this.players$.pipe(
       tap((players) => {
         if (!players.length) {
-          this.loadPlayers();
+          this.listenPlayers();
         }
       })
     );
