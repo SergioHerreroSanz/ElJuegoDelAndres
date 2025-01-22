@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -19,7 +20,7 @@ import { EjdaFirebaseService } from '../../shared/firebase/firebase.service';
 export class EjdaUserLoginComponent {
   isLogin = true;
   readonly registerForm;
-  private readonly subscription = new Subscription();
+  readonly nicknameControl = new FormControl();
 
   constructor(
     private readonly firebaseService: EjdaFirebaseService,
@@ -29,27 +30,25 @@ export class EjdaUserLoginComponent {
     this.registerForm = this.fb.group({ nickname: ['', Validators.required] });
   }
 
+  loginWithCredentials() {}
+
   loginWithGoogle() {
-    this.subscription.add(
-      this.firebaseService
-        .loginWithGoogle()
-        .pipe(take(1))
-        .subscribe(() => {
-          this.router.navigate(['scores']);
-        })
-    );
+    this.firebaseService
+      .loginWithGoogle()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.router.navigate(['scores']);
+      });
   }
 
   registerNewAccount() {
-    if (this.registerForm.valid && this.registerForm.value.nickname) {
-      this.subscription.add(
-        this.firebaseService
-          .registerWithGoogle(this.registerForm.value.nickname)
-          .pipe(take(1))
-          .subscribe(() => {
-            this.router.navigate(['scores']);
-          })
-      );
+    if (this.nicknameControl.value) {
+      this.firebaseService
+        .registerWithGoogle(this.nicknameControl.value)
+        .pipe(take(1))
+        .subscribe(() => {
+          this.router.navigate(['scores']);
+        });
     }
   }
 

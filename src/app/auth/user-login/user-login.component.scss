@@ -8,17 +8,67 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 3rem 1rem;
-  }
+    padding: 0.5rem;
 
-  &__register {
-    label {
-      margin-bottom: 1.5rem;
+    > * {
+      width: 100%;
+      margin: 0.5rem 0;
+    }
+
+    &-password,
+    &-provider {
+      label {
+        display: block;
+        width: 100%;
+        margin: 0.25rem 0;
+
+        input {
+          width: 100%;
+        }
+      }
+    }
+
+    &-password {
+      button {
+        display: block;
+        width: 100%;
+        margin: 0.5rem auto;
+      }
+    }
+
+    &-provider {
+      &-divider {
+        margin-bottom: 1.5rem;
+        span {
+          display: block;
+          margin: 0 auto;
+          width: fit-content;
+        }
+      }
+
+      &-methods {
+        margin-top: 0.5rem;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        justify-items: center;
+
+        button {
+          width: min-content;
+          margin: 0 0.5rem;
+        }
+      }
+    }
+
+    &-head {
+      > * {
+        margin: 0.25rem 0;
+      }
     }
   }
 
   &__toggle {
-    margin-top: 0.5rem;
+    margin-top: 1.5rem !important;
     text-align: center;
 
     span {

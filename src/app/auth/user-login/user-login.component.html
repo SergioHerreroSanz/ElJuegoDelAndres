@@ -1,24 +1,91 @@
 <div *ngIf="isLogin" class="user-login__login">
-  <button (click)="loginWithGoogle()">Iniciar sesión con Google</button>
+  <div class="user-login__login-head">
+    <h1 class="user-login__login-head-title">Login</h1>
+    <p class="user-login__login-head-subtitle">
+      Por favor, inicia sesión con tu cuenta.
+    </p>
+  </div>
+
+  <form class="user-login__login-password">
+    <label>
+      Email
+      <input type="text" />
+    </label>
+    <label>
+      Contraseña
+      <input type="text" />
+    </label>
+    <button (click)="loginWithCredentials()">Iniciar sesión</button>
+  </form>
+
+  <div class="user-login__login-provider">
+    <div class="user-login__register-provider-divider">
+      <span> - ó - </span>
+    </div>
+    <div class="user-login__login-provider-methods">
+      <button (click)="loginWithGoogle()">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+          alt="Iniciar sesión con google"
+        />
+      </button>
+    </div>
+  </div>
+
   <p class="user-login__toggle">
     ¿Aún no tienes cuenta? Prueba a
     <span (click)="toggleAccountRegistration()">registrarte</span>
   </p>
 </div>
 
-<form
-  *ngIf="!isLogin"
-  [formGroup]="registerForm"
-  (ngSubmit)="registerNewAccount()"
-  class="user-login__register"
->
-  <label>
-    Nombre de usuario:
-    <input type="text" formControlName="nickname" />
-  </label>
-  <button type="submit">Registrarme</button>
+<div *ngIf="!isLogin" class="user-login__register">
+  <div class="user-login__register-head">
+    <h1 class="user-login__register-head-title">Registro</h1>
+    <p class="user-login__register-head-subtitle">
+      Por favor, rellena los siguientes campos.
+    </p>
+  </div>
+
+  <form
+    class="user-login__register-password"
+    [formGroup]="registerForm"
+    (ngSubmit)="registerNewAccount()"
+  >
+    <label>
+      Nombre
+      <input type="text" formControlName="nickname" /> </label
+    ><label>
+      Email
+      <input type="text" />
+    </label>
+    <label>
+      Contraseña
+      <input type="text" />
+    </label>
+
+    <button type="submit">Registrarme</button>
+  </form>
+
+  <div class="user-login__register-provider">
+    <div class="user-login__register-provider-divider">
+      <span> - ó - </span>
+    </div>
+    <label>
+      Nombre
+      <input type="text" [formControl]="nicknameControl" />
+    </label>
+    <div class="user-login__register-provider-methods">
+      <button (click)="registerNewAccount()">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+          alt="Iniciar sesión con google"
+        />
+      </button>
+    </div>
+  </div>
+
   <p class="user-login__toggle">
     ¿Ya tienes cuenta?
     <span (click)="toggleAccountRegistration()">Inicia sesion</span>
   </p>
-</form>
+</div>
