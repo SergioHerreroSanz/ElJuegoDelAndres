@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { map, Observable, Subscription, take } from 'rxjs';
 import { EjdaFirebaseService } from '../../shared/firebase/firebase.service';
+import { EjdaFirebaseAuthService } from '../../shared/firebase/firebase-auth.service';
 
 @Component({
   selector: 'ejda-user-logout',
@@ -19,13 +20,13 @@ import { EjdaFirebaseService } from '../../shared/firebase/firebase.service';
 export class EjdaUserLogoutComponent {
   isLoggedIn$: Observable<boolean>;
 
-  constructor(private readonly firebaseService: EjdaFirebaseService) {
-    this.isLoggedIn$ = this.firebaseService.user$.pipe(
+  constructor(private readonly firebaseAuthService: EjdaFirebaseAuthService) {
+    this.isLoggedIn$ = this.firebaseAuthService.user$.pipe(
       map((user) => !!user?.email)
     );
   }
 
   logout() {
-    this.firebaseService.logout();
+    this.firebaseAuthService.logout();
   }
 }

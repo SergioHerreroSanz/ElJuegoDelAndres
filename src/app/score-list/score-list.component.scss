@@ -24,3 +24,18 @@
     transform: rotate(90deg);
   }
 }
+
+ejda-active-objetives-list {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 1rem;
+  border: dashed;
+  border-bottom: 0;
+  border-radius: 2rem 2rem 0 0;
+  padding: 1rem 2rem;
+}

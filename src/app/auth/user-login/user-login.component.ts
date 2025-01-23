@@ -10,6 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { Subscription, take } from 'rxjs';
 import { EjdaFirebaseService } from '../../shared/firebase/firebase.service';
+import { EjdaFirebaseAuthService } from '../../shared/firebase/firebase-auth.service';
 
 @Component({
   selector: 'ejda-user-login',
@@ -24,7 +25,7 @@ export class EjdaUserLoginComponent {
   readonly nicknameControl = new FormControl('', Validators.required);
 
   constructor(
-    private readonly firebaseService: EjdaFirebaseService,
+    private readonly firebaseAuthService: EjdaFirebaseAuthService,
     private readonly router: Router,
     private readonly fb: FormBuilder
   ) {
@@ -42,7 +43,7 @@ export class EjdaUserLoginComponent {
   loginWithCredentials() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      this.firebaseService
+      this.firebaseAuthService
         .loginWithEmail(email!, password!)
         .pipe(take(1))
         .subscribe(() => {
@@ -52,7 +53,7 @@ export class EjdaUserLoginComponent {
   }
 
   loginWithGoogle() {
-    this.firebaseService
+    this.firebaseAuthService
       .loginWithGoogle()
       .pipe(take(1))
       .subscribe(() => {
@@ -65,7 +66,7 @@ export class EjdaUserLoginComponent {
 
     if (this.registerForm.valid) {
       const { email, password, nickname } = this.registerForm.value;
-      this.firebaseService
+      this.firebaseAuthService
         .registerWithEmail(email!, password!, nickname!)
         .pipe(take(1))
         .subscribe(() => {
@@ -76,7 +77,7 @@ export class EjdaUserLoginComponent {
 
   registerWithGoogle() {
     if (this.nicknameControl.valid) {
-      this.firebaseService
+      this.firebaseAuthService
         .registerWithGoogle(this.nicknameControl.value!)
         .pipe(take(1))
         .subscribe(() => {
