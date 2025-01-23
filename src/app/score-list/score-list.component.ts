@@ -3,14 +3,14 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EjdaFirebaseService } from '../shared/firebase/firebase.service';
 import { EjdaPlayer } from './score-list.model';
-import { EjdaActiveObjetivesListComponent } from '../objetives/active-objetives-list/active-objetives-list.component';
+import { EjdaActiveGoalsListComponent } from '../goals/active-goals-list/active-goals-list.component';
 import { EjdaFirebasePlayersService } from '../shared/firebase/firebase-player.service';
 
 export const SCORE_INCREMENT = 10;
 
 @Component({
   selector: 'ejda-score-list',
-  imports: [CommonModule, EjdaActiveObjetivesListComponent],
+  imports: [CommonModule, EjdaActiveGoalsListComponent],
   templateUrl: './score-list.component.html',
   styleUrl: './score-list.component.scss',
 })
