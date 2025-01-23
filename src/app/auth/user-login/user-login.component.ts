@@ -19,18 +19,37 @@ import { EjdaFirebaseService } from '../../shared/firebase/firebase.service';
 })
 export class EjdaUserLoginComponent {
   isLogin = true;
+  readonly loginForm;
   readonly registerForm;
-  readonly nicknameControl = new FormControl();
+  readonly nicknameControl = new FormControl('', Validators.required);
 
   constructor(
     private readonly firebaseService: EjdaFirebaseService,
     private readonly router: Router,
     private readonly fb: FormBuilder
   ) {
-    this.registerForm = this.fb.group({ nickname: ['', Validators.required] });
+    this.loginForm = this.fb.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+    });
+    this.registerForm = this.fb.group({
+      nickname: ['', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+    });
   }
 
-  loginWithCredentials() {}
+  loginWithCredentials() {
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      this.firebaseService
+        .loginWithEmail(email!, password!)
+        .pipe(take(1))
+        .subscribe(() => {
+          this.router.navigate(['scores']);
+        });
+    }
+  }
 
   loginWithGoogle() {
     this.firebaseService
@@ -41,10 +60,24 @@ export class EjdaUserLoginComponent {
       });
   }
 
-  registerNewAccount() {
-    if (this.nicknameControl.value) {
+  registerWithEmail() {
+    console.log('registerWithCredentials', this.registerForm.value);
+
+    if (this.registerForm.valid) {
+      const { email, password, nickname } = this.registerForm.value;
       this.firebaseService
-        .registerWithGoogle(this.nicknameControl.value)
+        .registerWithEmail(email!, password!, nickname!)
+        .pipe(take(1))
+        .subscribe(() => {
+          this.router.navigate(['scores']);
+        });
+    }
+  }
+
+  registerWithGoogle() {
+    if (this.nicknameControl.valid) {
+      this.firebaseService
+        .registerWithGoogle(this.nicknameControl.value!)
         .pipe(take(1))
         .subscribe(() => {
           this.router.navigate(['scores']);

@@ -6,16 +6,20 @@
     </p>
   </div>
 
-  <form class="user-login__login-password">
+  <form
+    class="user-login__login-password"
+    [formGroup]="loginForm"
+    (ngSubmit)="loginWithCredentials()"
+  >
     <label>
       Email
-      <input type="text" />
+      <input type="text" formControlName="email" />
     </label>
     <label>
       Contraseña
-      <input type="text" />
+      <input type="text" formControlName="password" />
     </label>
-    <button (click)="loginWithCredentials()">Iniciar sesión</button>
+    <button type="submit">Iniciar sesión</button>
   </form>
 
   <div class="user-login__login-provider">
@@ -49,18 +53,18 @@
   <form
     class="user-login__register-password"
     [formGroup]="registerForm"
-    (ngSubmit)="registerNewAccount()"
+    (ngSubmit)="registerWithEmail()"
   >
     <label>
       Nombre
       <input type="text" formControlName="nickname" /> </label
     ><label>
       Email
-      <input type="text" />
+      <input type="text" formControlName="email" />
     </label>
     <label>
       Contraseña
-      <input type="text" />
+      <input type="text" formControlName="password" />
     </label>
 
     <button type="submit">Registrarme</button>
@@ -75,7 +79,7 @@
       <input type="text" [formControl]="nicknameControl" />
     </label>
     <div class="user-login__register-provider-methods">
-      <button (click)="registerNewAccount()">
+      <button (click)="registerWithGoogle()">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
           alt="Iniciar sesión con google"

@@ -4,10 +4,12 @@ import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
   Auth,
   browserLocalPersistence,
+  createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
   setPersistence,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   User,
@@ -21,7 +23,7 @@ import {
   increment,
   onSnapshot,
   setDoc,
-  updateDoc
+  updateDoc,
 } from 'firebase/firestore';
 import {
   BehaviorSubject,
@@ -68,6 +70,26 @@ export class EjdaFirebaseService {
     onAuthStateChanged(this.auth, (user) => this.user$.next(user));
   }
 
+  loginWithEmail(email: string, password: string): Observable<User> {
+    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
+      switchMap((userCredential) => {
+        return this.getPlayers().pipe(
+          filter((p) => !!p.length),
+          take(1),
+          map((players) => players.find((player) => player.id === email)),
+          switchMap((player) => {
+            if (player) {
+              return of(userCredential.user);
+            } else {
+              this.logout();
+              throw new Error('User not registered. Try registering first');
+            }
+          })
+        );
+      })
+    );
+  }
+
   loginWithGoogle(): Observable<User> {
     return this.getGoogleUserFromPopup().pipe(
       switchMap((user) => {
@@ -88,11 +110,35 @@ export class EjdaFirebaseService {
     );
   }
 
+  registerWithEmail(
+    email: string,
+    password: string,
+    nickname: string
+  ): Observable<User> {
+    return from(
+      createUserWithEmailAndPassword(this.auth, email, password)
+    ).pipe(
+      switchMap((userCredential) =>
+        this.getPlayers().pipe(
+          filter((p) => !!p),
+          take(1),
+          map((players) => players.find((player) => player.id === email)),
+          switchMap((player) => {
+            // This code wil update the user nickname if account already exists
+            this.savePlayer(email, nickname, player?.score ?? 0);
+            return of(userCredential.user);
+          })
+        )
+      ),
+      catchError((e) => this.throwGoogleError(e))
+    );
+  }
+
   registerWithGoogle(nickname: string): Observable<User> {
     return this.getGoogleUserFromPopup().pipe(
       switchMap((user) =>
         this.getPlayers().pipe(
-          filter((p) => !!p.length),
+          filter((p) => !!p),
           take(1),
           map((players) => players.find((player) => player.id === user.email)),
           switchMap((player) => {
@@ -106,12 +152,6 @@ export class EjdaFirebaseService {
     );
   }
 
-  throwGoogleError(e: any): Observable<User> {
-    throw new Error(
-      `Error ${e?.code} for email "${e?.customData?.email}": ${e.message}`
-    );
-  }
-
   getGoogleUserFromPopup(): Observable<User> {
     return from(setPersistence(this.auth, browserLocalPersistence)).pipe(
       switchMap(() =>
@@ -120,6 +160,12 @@ export class EjdaFirebaseService {
           catchError((e) => this.throwGoogleError(e))
         )
       )
+    );
+  }
+
+  throwGoogleError(e: any): Observable<User> {
+    throw new Error(
+      `Error ${e?.code} for email "${e?.customData?.email}": ${e.message}`
     );
   }
 
