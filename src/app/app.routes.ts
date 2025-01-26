@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { EjdaUserLoginComponent } from './components/auth/user-login/user-login.component';
+import { EjdaGoalsListComponent } from './components/goals/goals-list/goals-list.component';
 import { EjdaScoreListComponent } from './components/score-list/score-list.component';
 import { authGuard } from './shared/guards/auth.guard';
 import { notAuthGuard } from './shared/guards/not-auth.guard';
@@ -14,6 +15,11 @@ export const routes: Routes = [
   {
     path: 'scores',
     component: EjdaScoreListComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'goals',
+    component: EjdaGoalsListComponent,
     canActivate: [authGuard],
   },
   {
