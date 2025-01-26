@@ -1,0 +1,19 @@
+.active-goals {
+  position: relative;
+
+  &__title {
+    margin: 0.5rem 0 1rem 0;
+  }
+
+  &__see-all {
+    position: absolute;
+    top: 0.25rem;
+    right: 0;
+  }
+
+  &__no-active {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,0 +1,27 @@
+<div *ngIf="goals$ | async as goals" class="active-goals">
+  <h2 class="active-goals__title">Objetivos activos</h2>
+  <a [routerLink]="['/goals']" class="active-goals__see-all">Ver todos</a>
+
+  <table *ngIf="goals.length; else noActiveGoals">
+    <thead class="score-list__table-head">
+      <th>Objetivo</th>
+      <th>Precio</th>
+      <th>Faltante</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let goal of goals">
+        <td>{{ goal.name }}</td>
+        <td>{{ goal.price | money }}</td>
+        <td>
+          {{
+            getRemainingScore(goal.price, (totalScore$ | async) || 0) | money
+          }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noActiveGoals>
+    <span class="active-goals__no-active">Por el momento no hay objetivos activos</span>
+  </ng-template>
+</div>

@@ -1,7 +1,7 @@
 <table *ngIf="players$ | async as players" class="score-list__table">
   <thead class="score-list__table-head">
-    <td>Nombre</td>
-    <td>Puntuación</td>
+    <th>Nombre</th>
+    <th>Cantidad</th>
   </thead>
   <tbody>
     <tr *ngFor="let player of players">
@@ -13,7 +13,7 @@
         >
           <
         </button>
-        <span> {{ player.score / 100 | number : "1.2-2" }} € </span>
+        <span> {{ player.score | money }} </span>
         <button
           (click)="decreaseScore(player)"
           class="score-list__score-button"
@@ -23,6 +23,12 @@
       </td>
     </tr>
   </tbody>
+  <tfoot *ngIf="totalScore$ | async as totalScore">
+    <tr>
+      <td></td>
+      <td>{{ totalScore | money }}</td>
+    </tr>
+  </tfoot>
 </table>
 
 <ejda-active-goals-list></ejda-active-goals-list>

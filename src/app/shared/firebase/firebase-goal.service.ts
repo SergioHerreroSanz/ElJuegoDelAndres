@@ -11,76 +11,54 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
-import {
-  BehaviorSubject,
-  from,
-  map,
-  Observable,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
-import { EjdaPlayer } from '../models/score.model';
+import { BehaviorSubject, from, Observable, switchMap, take, tap } from 'rxjs';
+import { EjdaGoal } from '../models/goal.model';
 import { EjdaFirebaseService } from './firebase.service';
 
-export const PLAYERS_COLLECTION_NAME = 'players';
+export const GOALS_COLLECTION_NAME = 'goals';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EjdaFirebasePlayersService {
-  private readonly playersRef: CollectionReference;
-  private readonly players$: BehaviorSubject<EjdaPlayer[]> =
-    new BehaviorSubject<EjdaPlayer[]>([]);
-  private readonly totalScore$: Observable<number> = this.getPlayers().pipe(
-    map((players) =>
-      (players || []).reduce((acc: number, curr: EjdaPlayer) => {
-        return acc + curr.score;
-      }, 0)
-    )
-  );
+export class EjdaFirebaseGoalsService {
+  private readonly goalsRef: CollectionReference;
+  private readonly goals$: BehaviorSubject<EjdaGoal[]> = new BehaviorSubject<
+    EjdaGoal[]
+  >([]);
 
   constructor(
     private readonly firebaseService: EjdaFirebaseService,
     private readonly router: Router
   ) {
-    this.playersRef = collection(
+    this.goalsRef = collection(
       getFirestore(this.firebaseService.app),
-      PLAYERS_COLLECTION_NAME
+      GOALS_COLLECTION_NAME
     );
   }
 
-  getPlayers(): Observable<EjdaPlayer[]> {
-    return this.players$.pipe(
+  getGoals(): Observable<EjdaGoal[]> {
+    return this.goals$.pipe(
       tap((players) => {
         if (!players.length) {
-          this.listenPlayers();
+          this.listenGoals();
         }
       })
     );
   }
 
-  getTotalScore() {
-    return this.totalScore$;
-  }
-
-  listenPlayers(): void {
-    onSnapshot(this.playersRef, (snapshot) => {
+  listenGoals(): void {
+    onSnapshot(this.goalsRef, (snapshot) => {
       const players = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      })) as EjdaPlayer[];
-      this.players$.next(players);
+      })) as EjdaGoal[];
+      this.goals$.next(players);
     });
   }
 
-  savePlayer(email: string, nickname: string, score: number): void {
+  saveGoal(email: string, nickname: string, score: number): void {
     setDoc(
-      doc(
-        getFirestore(this.firebaseService.app),
-        PLAYERS_COLLECTION_NAME,
-        email
-      ),
+      doc(getFirestore(this.firebaseService.app), GOALS_COLLECTION_NAME, email),
       {
         name: nickname,
         score: score,
@@ -89,7 +67,7 @@ export class EjdaFirebasePlayersService {
   }
 
   modifyPlayerScore(email: string, valueToAdd: number): void {
-    const playerDocRef = doc(this.playersRef, email);
+    const playerDocRef = doc(this.goalsRef, email);
 
     from(getDoc(playerDocRef))
       .pipe(

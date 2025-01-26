@@ -8,9 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription, take } from 'rxjs';
-import { EjdaFirebaseService } from '../../shared/firebase/firebase.service';
-import { EjdaFirebaseAuthService } from '../../shared/firebase/firebase-auth.service';
+import { take } from 'rxjs';
+import { EjdaFirebaseAuthService } from '../../../shared/firebase/firebase-auth.service';
 
 @Component({
   selector: 'ejda-user-login',
@@ -62,8 +61,6 @@ export class EjdaUserLoginComponent {
   }
 
   registerWithEmail() {
-    console.log('registerWithCredentials', this.registerForm.value);
-
     if (this.registerForm.valid) {
       const { email, password, nickname } = this.registerForm.value;
       this.firebaseAuthService

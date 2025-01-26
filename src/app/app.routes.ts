@@ -1,13 +1,15 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
-import { authGuard } from './auth/auth.guard';
-import { EjdaUserLoginComponent } from './auth/user-login/user-login.component';
-import { EjdaScoreListComponent } from './score-list/score-list.component';
+
+import { EjdaUserLoginComponent } from './components/auth/user-login/user-login.component';
+import { EjdaScoreListComponent } from './components/score-list/score-list.component';
+import { authGuard } from './shared/guards/auth.guard';
+import { notAuthGuard } from './shared/guards/not-auth.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: EjdaUserLoginComponent,
+    canActivate: [notAuthGuard],
   },
   {
     path: 'scores',

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
   Auth,
   browserLocalPersistence,
@@ -15,17 +14,6 @@ import {
   User,
 } from 'firebase/auth';
 import {
-  collection,
-  CollectionReference,
-  doc,
-  getDoc,
-  getFirestore,
-  increment,
-  onSnapshot,
-  setDoc,
-  updateDoc,
-} from 'firebase/firestore';
-import {
   BehaviorSubject,
   catchError,
   filter,
@@ -33,18 +21,11 @@ import {
   map,
   Observable,
   of,
-  Subject,
   switchMap,
-  take,
-  tap,
+  take
 } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import {
-  EjdaPlayer,
-  PLAYERS_COLLECTION_NAME,
-} from '../../score-list/score-list.model';
-import { EjdaFirebaseService } from './firebase.service';
 import { EjdaFirebasePlayersService } from './firebase-player.service';
+import { EjdaFirebaseService } from './firebase.service';
 
 @Injectable({
   providedIn: 'root',
@@ -53,8 +34,11 @@ export class EjdaFirebaseAuthService {
   private readonly googleProvider = new GoogleAuthProvider();
   private readonly auth: Auth;
 
-  readonly user$: Subject<User | null> = new Subject<User | null>();
-  readonly isLogedIn$: Subject<boolean | null> = new Subject<boolean | null>();
+  readonly user$: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>(null);
+  readonly isLoggedIn$: BehaviorSubject<boolean | null> = new BehaviorSubject<
+    boolean | null
+  >(null);
 
   constructor(
     private readonly firebaseService: EjdaFirebaseService,
@@ -64,7 +48,7 @@ export class EjdaFirebaseAuthService {
     this.auth = getAuth(this.firebaseService.app);
     onAuthStateChanged(this.auth, (user) => {
       this.user$.next(user);
-      this.isLogedIn$.next(!!user?.email);
+      this.isLoggedIn$.next(!!user);
     });
   }
 
@@ -179,7 +163,7 @@ export class EjdaFirebaseAuthService {
     from(signOut(this.auth))
       .pipe(take(1))
       .subscribe(() => {
-        this.isLogedIn$.next(false);
+        this.isLoggedIn$.next(false);
         this.user$.next(null);
         this.router.navigate(['login']);
       });
