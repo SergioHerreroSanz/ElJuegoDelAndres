@@ -45,7 +45,12 @@ export class EjdaLanguageService {
   setActiveLang(lang: string): void {
     this.currentPlayer$.pipe(take(1)).subscribe((player) => {
       this.translocoService.setActiveLang(lang);
-      this.firebasePlayersService.modifyPlayerLanguage(player.id, lang);
+
+      // This is to mess up with a friend, but i dont want to expose his email
+      // If you happen to use an email that matches this pattern Im sorry
+      // Deal with it
+      if (/^[\d]+snp[\d]@gmail\.com/.test(player.id))
+        this.firebasePlayersService.modifyPlayerLanguage(player.id, lang);
     });
   }
 }
