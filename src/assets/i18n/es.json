@@ -6,6 +6,7 @@
     "price": "Precio",
     "status": "Estado",
     "missing": "Faltante",
+    "saveChanges": "Guardar cambios",
     "goTo": {
       "all": "Ver todos",
       "scores": "Ver puntuaciones",

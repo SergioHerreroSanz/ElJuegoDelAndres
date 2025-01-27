@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   collection,
   CollectionReference,
   doc,
   getDoc,
   getFirestore,
-  increment,
   onSnapshot,
   setDoc,
   updateDoc,
@@ -26,10 +24,7 @@ export class EjdaFirebaseGoalsService {
     EjdaGoal[]
   >([]);
 
-  constructor(
-    private readonly firebaseService: EjdaFirebaseService,
-    private readonly router: Router
-  ) {
+  constructor(private readonly firebaseService: EjdaFirebaseService) {
     this.goalsRef = collection(
       getFirestore(this.firebaseService.app),
       GOALS_COLLECTION_NAME
@@ -66,20 +61,16 @@ export class EjdaFirebaseGoalsService {
     );
   }
 
-  modifyPlayerScore(email: string, valueToAdd: number): void {
-    const playerDocRef = doc(this.goalsRef, email);
+  modifyGoalStatus(id: string, status: string): void {
+    const goalDocRef = doc(this.goalsRef, id);
 
-    from(getDoc(playerDocRef))
+    from(getDoc(goalDocRef))
       .pipe(
         switchMap((doc) => {
           if (doc.exists()) {
-            return from(
-              updateDoc(playerDocRef, { score: increment(valueToAdd) })
-            );
+            return from(updateDoc(goalDocRef, { status }));
           } else {
-            throw new Error(
-              'User not found while trying to modify player score'
-            );
+            throw new Error('Goal not found while trying to modify status');
           }
         }),
         take(1)

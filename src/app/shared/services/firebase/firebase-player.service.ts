@@ -112,7 +112,7 @@ export class EjdaFirebasePlayersService {
             );
           } else {
             throw new Error(
-              'User not found while trying to modify player score'
+              'User not found while trying to modify score'
             );
           }
         }),

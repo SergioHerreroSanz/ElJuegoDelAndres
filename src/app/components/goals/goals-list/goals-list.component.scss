@@ -11,6 +11,15 @@
     right: 0;
   }
 
+  &__actions {
+    width: 100%;
+    margin-top: 0.75rem;
+    > * {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+
   &__no-goals {
     display: inline-block;
     width: 100%;

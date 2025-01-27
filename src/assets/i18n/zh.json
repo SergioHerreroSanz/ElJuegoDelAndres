@@ -1,13 +1,14 @@
 {
   "common": {
-    "name": "姓名",
+    "name": "名称",
     "qty": "数量",
     "goal": "目标",
     "price": "价格",
     "status": "状态",
-    "missing": "缺少",
+    "missing": "缺失",
+    "saveChanges": "保存更改",
     "goTo": {
-      "all": "查看全部",
+      "all": "查看所有",
       "scores": "查看分数",
       "goals": "查看目标"
     },
@@ -25,7 +26,7 @@
       "subtitle": "请使用您的账户登录。",
       "or": "或",
       "toggleRegister": {
-        "message": "还没有账户？尝试",
+        "message": "还没有账户？尝试 ",
         "action": "注册"
       },
       "withGoogle": "使用 Google 登录"
@@ -40,9 +41,9 @@
       },
       "withGoogle": "使用 Google 注册"
     },
-    "logout": "退出登录",
+    "logout": "注销",
     "form": {
-      "name": "姓名",
+      "name": "名称",
       "email": "电子邮件",
       "password": "密码",
       "login": "登录",
@@ -56,7 +57,7 @@
       "noGoals": "目前没有目标"
     },
     "status": {
-      "pending": "待处理",
+      "pending": "待定",
       "active": "进行中",
       "completed": "已完成"
     }

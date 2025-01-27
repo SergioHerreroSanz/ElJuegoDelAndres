@@ -15,13 +15,29 @@
         <td>{{ goal.name }}</td>
         <td>{{ goal.price | money }}</td>
         <td>
-          {{ "goals.status." + goal.status | transloco }}
+          <select (change)="changeStatus(goal.id, goal.status, $event)">
+            <option
+              *ngFor="let status of availableStatuses"
+              [selected]="status === goal.status"
+              [value]="status"
+            >
+              {{ "goals.status." + status | transloco }}
+            </option>
+          </select>
         </td>
       </tr>
     </tbody>
   </table>
+  
+  <div class="goals__actions">
+    <button (click)="confirmStatusUpdate()">
+      {{ "common.saveChanges" | transloco }}
+    </button>
+  </div>
 
   <ng-template #noActiveGoals>
-    <span class="goals__no-goals">{{ "goals.active.noGoals" | transloco }}</span>
+    <span class="goals__no-goals">{{
+      "goals.active.noGoals" | transloco
+    }}</span>
   </ng-template>
 </div>
