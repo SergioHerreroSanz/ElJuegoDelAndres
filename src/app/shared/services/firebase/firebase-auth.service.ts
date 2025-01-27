@@ -22,7 +22,7 @@ import {
   Observable,
   of,
   switchMap,
-  take
+  take,
 } from 'rxjs';
 import { EjdaFirebasePlayersService } from './firebase-player.service';
 import { EjdaFirebaseService } from './firebase.service';

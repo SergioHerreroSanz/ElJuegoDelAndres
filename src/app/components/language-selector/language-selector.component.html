@@ -1,0 +1,12 @@
+<div class="language-selector" *ngIf="activeLang$ | async as activeLang">
+  <div (click)="toggleSelector()" class="language-selector__active">
+    {{ "common.language." + activeLang | transloco }}
+  </div>
+  <div *ngIf="displaySelector" class="language-selector__available">
+    <ng-container *ngFor="let lang of availableLangs">
+      <div *ngIf="lang !== activeLang" (click)="changeLanguage(lang)">
+        {{ "common.language." + lang | transloco }}
+      </div>
+    </ng-container>
+  </div>
+</div>

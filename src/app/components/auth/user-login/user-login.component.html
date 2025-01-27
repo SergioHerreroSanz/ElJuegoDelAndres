@@ -1,8 +1,10 @@
 <div *ngIf="isLogin" class="user-login__login">
   <div class="user-login__login-head">
-    <h1 class="user-login__login-head-title">Login</h1>
+    <h1 class="user-login__login-head-title">
+      {{ "user.login.title" | transloco }}
+    </h1>
     <p class="user-login__login-head-subtitle">
-      Por favor, inicia sesión con tu cuenta.
+      {{ "user.login.subtitle" | transloco }}
     </p>
   </div>
 
@@ -12,41 +14,45 @@
     (ngSubmit)="loginWithCredentials()"
   >
     <label>
-      Email
+      {{ "user.form.email" | transloco }}
       <input type="text" formControlName="email" />
     </label>
     <label>
-      Contraseña
+      {{ "user.form.password" | transloco }}
       <input type="text" formControlName="password" />
     </label>
-    <button type="submit">Iniciar sesión</button>
+    <button type="submit">{{ "user.form.login" | transloco }}</button>
   </form>
 
   <div class="user-login__login-provider">
     <div class="user-login__register-provider-divider">
-      <span> - ó - </span>
+      <span> - {{ "user.login.or" | transloco }} - </span>
     </div>
     <div class="user-login__login-provider-methods">
       <button (click)="loginWithGoogle()">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-          alt="Iniciar sesión con google"
+          alt="{{ 'user.login.withGoogle' | transloco }}"
         />
       </button>
     </div>
   </div>
 
   <p class="user-login__toggle">
-    ¿Aún no tienes cuenta? Prueba a
-    <span (click)="toggleAccountRegistration()">registrarte</span>
+    {{ "user.login.toggleRegister.message" | transloco }}
+    <span (click)="toggleAccountRegistration()">
+      {{ "user.login.toggleRegister.action" | transloco }}
+    </span>
   </p>
 </div>
 
 <div *ngIf="!isLogin" class="user-login__register">
   <div class="user-login__register-head">
-    <h1 class="user-login__register-head-title">Registro</h1>
+    <h1 class="user-login__register-head-title">
+      {{ "user.register.title" | transloco }}
+    </h1>
     <p class="user-login__register-head-subtitle">
-      Por favor, rellena los siguientes campos.
+      {{ "user.register.subtitle" | transloco }}
     </p>
   </div>
 
@@ -56,40 +62,42 @@
     (ngSubmit)="registerWithEmail()"
   >
     <label>
-      Nombre
+      {{ "user.form.name" | transloco }}
       <input type="text" formControlName="nickname" /> </label
     ><label>
-      Email
+      {{ "user.form.email" | transloco }}
       <input type="text" formControlName="email" />
     </label>
     <label>
-      Contraseña
+      {{ "user.form.password" | transloco }}
       <input type="text" formControlName="password" />
     </label>
 
-    <button type="submit">Registrarme</button>
+    <button type="submit">{{ "user.form.register" | transloco }}</button>
   </form>
 
   <div class="user-login__register-provider">
     <div class="user-login__register-provider-divider">
-      <span> - ó - </span>
+      <span> - {{ "user.register.or" | transloco }} - </span>
     </div>
     <label>
-      Nombre
+      {{ "user.form.name" | transloco }}
       <input type="text" [formControl]="nicknameControl" />
     </label>
     <div class="user-login__register-provider-methods">
       <button (click)="registerWithGoogle()">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-          alt="Iniciar sesión con google"
+          alt="{{ 'user.register.withGoogle' | transloco }}"
         />
       </button>
     </div>
   </div>
 
   <p class="user-login__toggle">
-    ¿Ya tienes cuenta?
-    <span (click)="toggleAccountRegistration()">Inicia sesion</span>
+    {{ "user.register.toggleLogin.message" | transloco }}
+    <span (click)="toggleAccountRegistration()">{{
+      "user.register.toggleLogin.action" | transloco
+    }}</span>
   </p>
 </div>

@@ -1,3 +1,4 @@
+import { UpperCasePipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -6,11 +7,19 @@ import {
   Renderer2,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
 import { EjdaUserLogoutComponent } from './components/auth/user-logout/user-logout.component';
+import { EjdaLanguageSelectorComponent } from './components/language-selector/language-selector.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterModule, EjdaUserLogoutComponent],
+  imports: [
+    RouterModule,
+    UpperCasePipe,
+    TranslocoPipe,
+    EjdaLanguageSelectorComponent,
+    EjdaUserLogoutComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [],

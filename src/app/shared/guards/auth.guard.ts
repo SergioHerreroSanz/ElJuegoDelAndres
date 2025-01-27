@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { filter, map, take } from 'rxjs';
-import { EjdaFirebaseAuthService } from '../firebase/firebase-auth.service';
+import { EjdaFirebaseAuthService } from '../services/firebase/firebase-auth.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const service: EjdaFirebaseAuthService = inject(EjdaFirebaseAuthService);

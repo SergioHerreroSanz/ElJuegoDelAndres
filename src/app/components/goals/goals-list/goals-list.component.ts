@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
 import { map, Observable } from 'rxjs';
-import { EjdaFirebaseGoalsService } from '../../../shared/firebase/firebase-goal.service';
-import { EjdaFirebasePlayersService } from '../../../shared/firebase/firebase-player.service';
 import { EjdaGoal, EjdaGoalStatus } from '../../../shared/models/goal.model';
 import { MoneyPipe } from '../../../shared/pipes/money-pipe.pipe';
+import { EjdaFirebaseGoalsService } from '../../../shared/services/firebase/firebase-goal.service';
+import { EjdaFirebasePlayersService } from '../../../shared/services/firebase/firebase-player.service';
 
 @Component({
   selector: 'ejda-goals-list',
-  imports: [CommonModule, RouterModule, MoneyPipe],
+  imports: [CommonModule, RouterModule, MoneyPipe, TranslocoPipe],
   templateUrl: './goals-list.component.html',
   styleUrl: './goals-list.component.scss',
 })

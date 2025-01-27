@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoPipe } from '@ngneat/transloco';
 import { map, Observable } from 'rxjs';
-import { EjdaFirebaseAuthService } from '../../../shared/firebase/firebase-auth.service';
+import { EjdaFirebaseAuthService } from '../../../shared/services/firebase/firebase-auth.service';
 
 @Component({
   selector: 'ejda-user-logout',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslocoPipe],
   templateUrl: './user-logout.component.html',
   styleUrl: './user-logout.component.scss',
 })

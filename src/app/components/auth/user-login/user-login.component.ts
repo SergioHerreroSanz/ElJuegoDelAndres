@@ -8,12 +8,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
 import { take } from 'rxjs';
-import { EjdaFirebaseAuthService } from '../../../shared/firebase/firebase-auth.service';
+import { EjdaFirebaseAuthService } from '../../../shared/services/firebase/firebase-auth.service';
 
 @Component({
   selector: 'ejda-user-login',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslocoPipe],
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.scss',
 })

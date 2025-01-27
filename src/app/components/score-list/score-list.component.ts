@@ -1,16 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
-import { EjdaFirebasePlayersService } from '../../shared/firebase/firebase-player.service';
-import { EjdaPlayer } from '../../shared/models/score.model';
+import { EjdaPlayer } from '../../shared/models/player.model';
 import { MoneyPipe } from '../../shared/pipes/money-pipe.pipe';
+import { EjdaFirebasePlayersService } from '../../shared/services/firebase/firebase-player.service';
 import { EjdaActiveGoalsListComponent } from '../goals/active-goals-list/active-goals-list.component';
 
 export const SCORE_INCREMENT = 0.1;
 
 @Component({
   selector: 'ejda-score-list',
-  imports: [CommonModule, MoneyPipe, EjdaActiveGoalsListComponent],
+  imports: [
+    CommonModule,
+    MoneyPipe,
+    TranslocoPipe,
+    EjdaActiveGoalsListComponent,
+  ],
   templateUrl: './score-list.component.html',
   styleUrl: './score-list.component.scss',
 })

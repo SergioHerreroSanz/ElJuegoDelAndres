@@ -1,7 +1,7 @@
 <table *ngIf="players$ | async as players" class="score-list__table">
   <thead class="score-list__table-head">
-    <th>Nombre</th>
-    <th>Cantidad</th>
+    <th>{{ "common.name" | transloco }}</th>
+    <th>{{ "common.qty" | transloco }}</th>
   </thead>
   <tbody>
     <tr *ngFor="let player of players">

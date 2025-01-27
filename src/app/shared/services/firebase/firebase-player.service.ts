@@ -20,7 +20,7 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { EjdaPlayer } from '../models/score.model';
+import { EjdaPlayer } from '../../models/player.model';
 import { EjdaFirebaseService } from './firebase.service';
 
 export const PLAYERS_COLLECTION_NAME = 'players';
@@ -48,6 +48,18 @@ export class EjdaFirebasePlayersService {
       getFirestore(this.firebaseService.app),
       PLAYERS_COLLECTION_NAME
     );
+  }
+
+  getPlayer(email: string): Observable<EjdaPlayer> {
+    return from(
+      getDoc(
+        doc(
+          getFirestore(this.firebaseService.app),
+          PLAYERS_COLLECTION_NAME,
+          email
+        )
+      )
+    ).pipe(map((doc) => doc.data() as EjdaPlayer));
   }
 
   getPlayers(): Observable<EjdaPlayer[]> {
@@ -101,6 +113,25 @@ export class EjdaFirebasePlayersService {
           } else {
             throw new Error(
               'User not found while trying to modify player score'
+            );
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  modifyPlayerLanguage(email: string, lang: string): void {
+    const playerDocRef = doc(this.playersRef, email);
+
+    from(getDoc(playerDocRef))
+      .pipe(
+        switchMap((doc) => {
+          if (doc.exists()) {
+            return from(updateDoc(playerDocRef, { language: lang }));
+          } else {
+            throw new Error(
+              'User not found while trying to modify player language'
             );
           }
         }),

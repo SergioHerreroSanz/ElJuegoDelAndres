@@ -9,6 +9,14 @@
   align-items: center;
   justify-content: center;
 
+  &__language-selector {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    align-items: center;
+  }
+
   &__title {
     font-size: 2rem;
     text-align: center;

@@ -1,0 +1,64 @@
+{
+  "common": {
+    "name": "姓名",
+    "qty": "数量",
+    "goal": "目标",
+    "price": "价格",
+    "status": "状态",
+    "missing": "缺少",
+    "goTo": {
+      "all": "查看全部",
+      "scores": "查看分数",
+      "goals": "查看目标"
+    },
+    "language": {
+      "es": "西班牙语",
+      "zh": "中文"
+    }
+  },
+  "header": {
+    "title": "安德烈斯的游戏"
+  },
+  "user": {
+    "login": {
+      "title": "登录",
+      "subtitle": "请使用您的账户登录。",
+      "or": "或",
+      "toggleRegister": {
+        "message": "还没有账户？尝试",
+        "action": "注册"
+      },
+      "withGoogle": "使用 Google 登录"
+    },
+    "register": {
+      "title": "注册",
+      "subtitle": "请填写以下字段。",
+      "or": "或",
+      "toggleLogin": {
+        "message": "已经有账户？",
+        "action": "登录"
+      },
+      "withGoogle": "使用 Google 注册"
+    },
+    "logout": "退出登录",
+    "form": {
+      "name": "姓名",
+      "email": "电子邮件",
+      "password": "密码",
+      "login": "登录",
+      "register": "注册"
+    }
+  },
+  "goals": {
+    "title": "目标",
+    "active": {
+      "title": "进行中的目标",
+      "noGoals": "目前没有目标"
+    },
+    "status": {
+      "pending": "待处理",
+      "active": "进行中",
+      "completed": "已完成"
+    }
+  }
+}

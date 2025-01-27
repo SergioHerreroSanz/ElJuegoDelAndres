@@ -1,0 +1,64 @@
+{
+  "common": {
+    "name": "Nombre",
+    "qty": "Cantidad",
+    "goal": "Objetivo",
+    "price": "Precio",
+    "status": "Estado",
+    "missing": "Faltante",
+    "goTo": {
+      "all": "Ver todos",
+      "scores": "Ver puntuaciones",
+      "goals": "Ver objetivos"
+    },
+    "language": {
+      "es": "Español",
+      "zh": "Chino"
+    }
+  },
+  "header": {
+    "title": "El juego del andrés"
+  },
+  "user": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Por favor, inicia sesión con tu cuenta.",
+      "or": "ó",
+      "toggleRegister": {
+        "message": "¿Aún no tienes cuenta? Prueba a ",
+        "action": "registrarte"
+      },
+      "withGoogle": "Iniciar sesión con google"
+    },
+    "register": {
+      "title": "Register",
+      "subtitle": "Por favor, rellena los siguientes campos.",
+      "or": "ó",
+      "toggleLogin": {
+        "message": "¿Ya tienes cuenta? ",
+        "action": "Inicia sesion"
+      },
+      "withGoogle": "Registrarse con con google"
+    },
+    "logout": "Cerrar sesión",
+    "form": {
+      "name": "Nombre",
+      "email": "Email",
+      "password": "Contraseña",
+      "login": "Iniciar sesión",
+      "register": "Registrarme"
+    }
+  },
+  "goals": {
+    "title": "Objetivos",
+    "active": {
+      "title": "Objetivos activos",
+      "noGoals": "Por el momento no hay objetivos"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "active": "Activo",
+      "completed": "Completado"
+    }
+  }
+}

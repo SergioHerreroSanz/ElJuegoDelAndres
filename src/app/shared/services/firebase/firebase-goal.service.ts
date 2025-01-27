@@ -12,7 +12,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { BehaviorSubject, from, Observable, switchMap, take, tap } from 'rxjs';
-import { EjdaGoal } from '../models/goal.model';
+import { EjdaGoal } from '../../models/goal.model';
 import { EjdaFirebaseService } from './firebase.service';
 
 export const GOALS_COLLECTION_NAME = 'goals';

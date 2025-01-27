@@ -1,12 +1,14 @@
 <div *ngIf="goals$ | async as goals" class="active-goals">
-  <h2 class="active-goals__title">Objetivos activos</h2>
-  <a [routerLink]="['/goals']" class="active-goals__see-all">Ver todos</a>
+  <h2 class="active-goals__title">{{ "goals.active.title" | transloco }}</h2>
+  <a [routerLink]="['/goals']" class="active-goals__see-all">{{
+    "common.goTo.all" | transloco
+  }}</a>
 
   <table *ngIf="goals.length; else noActiveGoals">
     <thead class="active-goals__table-head">
-      <th>Objetivo</th>
-      <th>Precio</th>
-      <th>Faltante</th>
+      <th>{{ "common.goal" | transloco }}</th>
+      <th>{{ "common.price" | transloco }}</th>
+      <th>{{ "common.missing" | transloco }}</th>
     </thead>
     <tbody>
       <tr *ngFor="let goal of goals">
@@ -22,6 +24,8 @@
   </table>
 
   <ng-template #noActiveGoals>
-    <span class="active-goals__no-active">Por el momento no hay objetivos activos</span>
+    <span class="active-goals__no-active">
+      {{ "goals.active.noGoals" | transloco }}
+    </span>
   </ng-template>
 </div>
