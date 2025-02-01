@@ -6,11 +6,13 @@
 
   <table *ngIf="goals.length; else noActiveGoals">
     <thead class="goals__table-head">
-      <th>{{ "common.goal" | transloco }}</th>
+      <th>
+        {{ "common.goal" | transloco }}
+      </th>
       <th>{{ "common.price" | transloco }}</th>
       <th>{{ "common.status" | transloco }}</th>
     </thead>
-    <tbody>
+    <tbody class="goals__table-body">
       <tr *ngFor="let goal of goals">
         <td>{{ goal.name }}</td>
         <td>{{ goal.price | money }}</td>
@@ -26,14 +28,17 @@
           </select>
         </td>
       </tr>
+      <tr class="goals__table-body-actions">
+        <td><button (click)="createGoal()">Añadir nuevo</button></td>
+        <td></td>
+        <td>
+          <button (click)="confirmStatusUpdate()">
+            {{ "common.save" | transloco }}
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
-  
-  <div class="goals__actions">
-    <button (click)="confirmStatusUpdate()">
-      {{ "common.saveChanges" | transloco }}
-    </button>
-  </div>
 
   <ng-template #noActiveGoals>
     <span class="goals__no-goals">{{

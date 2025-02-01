@@ -1,0 +1,23 @@
+<form
+  class="user-login__login-password"
+  [formGroup]="goalForm"
+  (ngSubmit)="createGoal()"
+>
+  <label>
+    {{ "goals.create.form.name" | transloco }}
+    <input type="text" formControlName="name" />
+  </label>
+  <label>
+    {{ "goals.create.form.price" | transloco }}
+    <input type="number" formControlName="price" />
+  </label>
+  <label>
+    {{ "goals.create.form.status" | transloco }}
+    <select formControlName="status">
+      <option *ngFor="let status of availableStatuses" [value]="status">
+        {{ "goals.status." + status | transloco }}
+      </option>
+    </select>
+  </label>
+  <button type="submit">{{ "goals.create.create" | transloco }}</button>
+</form>

@@ -14,19 +14,6 @@
       margin: 0.5rem 0;
     }
 
-    &-password,
-    &-provider {
-      label {
-        display: block;
-        width: 100%;
-        margin: 0.25rem 0;
-
-        input {
-          width: 100%;
-        }
-      }
-    }
-
     &-password {
       button {
         display: block;

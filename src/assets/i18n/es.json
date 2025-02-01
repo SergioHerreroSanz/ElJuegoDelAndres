@@ -6,15 +6,15 @@
     "price": "Precio",
     "status": "Estado",
     "missing": "Faltante",
-    "saveChanges": "Guardar cambios",
+    "save": "Guardar",
     "goTo": {
       "all": "Ver todos",
       "scores": "Ver puntuaciones",
       "goals": "Ver objetivos"
     },
     "language": {
-      "es": "Español",
-      "zh": "Chino"
+      "es": "ES",
+      "zh": "ZH"
     }
   },
   "header": {
@@ -55,6 +55,14 @@
     "active": {
       "title": "Objetivos activos",
       "noGoals": "Por el momento no hay objetivos"
+    },
+    "create": {
+      "form": {
+        "name": "Nombre",
+        "price": "Precio",
+        "status": "Status"
+      },
+      "create": "Crear"
     },
     "status": {
       "pending": "Pendiente",

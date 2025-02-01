@@ -11,12 +11,22 @@
     right: 0;
   }
 
-  &__actions {
-    width: 100%;
-    margin-top: 0.75rem;
-    > * {
-      display: block;
-      margin: 0 auto;
+  &__table {
+    &-body {
+      select {
+        width: max-content;
+        text-align-last: center;
+      }
+
+      &-actions {
+        > * {
+          padding-top: 0.05rem;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
     }
   }
 

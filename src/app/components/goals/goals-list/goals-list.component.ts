@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { Observable } from 'rxjs';
 import { EjdaGoal, EjdaGoalStatus } from '../../../shared/models/goal.model';
 import { MoneyPipe } from '../../../shared/pipes/money-pipe.pipe';
 import { EjdaFirebaseGoalsService } from '../../../shared/services/firebase/firebase-goal.service';
 import { EjdaFirebasePlayersService } from '../../../shared/services/firebase/firebase-player.service';
+import { EjdaModalService } from '../../../shared/services/modal/modal.service';
+import { EjdaNewGoalModalComponent } from '../new-goal-modal/new-goal-modal.component';
 
 @Component({
   selector: 'ejda-goals-list',
@@ -23,10 +25,15 @@ export class EjdaGoalsListComponent {
 
   constructor(
     protected readonly firebaseGoalsService: EjdaFirebaseGoalsService,
-    protected readonly firebasePlayersService: EjdaFirebasePlayersService
+    protected readonly firebasePlayersService: EjdaFirebasePlayersService,
+    protected readonly modalService: EjdaModalService
   ) {
     this.goals$ = this.firebaseGoalsService.getGoals();
     this.totalScore$ = this.firebasePlayersService.getTotalScore();
+  }
+
+  createGoal() {
+    this.modalService.openModal(EjdaNewGoalModalComponent);
   }
 
   getRemainingScore(price: number, totalScore: number) {
