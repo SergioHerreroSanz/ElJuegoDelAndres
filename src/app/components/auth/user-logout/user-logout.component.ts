@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { map, Observable } from 'rxjs';
 import { EjdaFirebaseAuthService } from '../../../shared/services/firebase/firebase-auth.service';
 

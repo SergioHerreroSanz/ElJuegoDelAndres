@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { map, Observable } from 'rxjs';
 import { EjdaGoal, EjdaGoalStatus } from '../../../shared/models/goal.model';
 import { MoneyPipe } from '../../../shared/pipes/money-pipe.pipe';

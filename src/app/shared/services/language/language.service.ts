@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LangDefinition, TranslocoService } from '@ngneat/transloco';
+import { LangDefinition, TranslocoService } from '@jsverse/transloco';
 import { filter, map, Observable, switchMap, take } from 'rxjs';
 import { EjdaPlayer } from '../../models/player.model';
 import { EjdaFirebaseAuthService } from '../firebase/firebase-auth.service';

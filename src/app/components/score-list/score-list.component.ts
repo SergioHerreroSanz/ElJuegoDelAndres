@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { Observable } from 'rxjs';
 import { EjdaPlayer } from '../../shared/models/player.model';
 import { MoneyPipe } from '../../shared/pipes/money-pipe.pipe';
