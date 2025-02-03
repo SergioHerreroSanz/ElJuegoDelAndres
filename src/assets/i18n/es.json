@@ -77,22 +77,19 @@
     }
   },
   "messages": {
-    "success": {
-      "goals": {
-        "listen": "Algo salió mal",
-        "create": "Algo salió mal",
-        "save": "Algo salió mal",
-        "modifyStatus": "Algo salió mal",
-        "delete": "Algo salió mal"
-      }
-    },
-    "error": {
-      "goals": {
-        "listen": "Algo salió mal",
-        "create": "Algo salió mal",
-        "save": "Algo salió mal",
-        "modifyStatus": "Algo salió mal",
-        "delete": "Algo salió mal"
+    "goals": {
+      "success": {
+        "create": "Se ha creado un nuevo objetivo",
+        "save": "Se ha guardado el objetivo",
+        "modifyStatus": "Se ha guardado el estado",
+        "remove": "Se ha eliminado el objetivo"
+      },
+      "error": {
+        "listen": "No se pudieron cargar los objetivos",
+        "create": "No se pudo crear el objetivo",
+        "save": "No se pudo guardar el objetivo",
+        "modifyStatus": "No se pudo guardar el estado",
+        "remove": "No se pudo borrar el objetivo"
       }
     }
   }

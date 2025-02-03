@@ -11,6 +11,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { EjdaUserLogoutComponent } from './components/auth/user-logout/user-logout.component';
 import { EjdaLanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { EjdaGlobalMessageComponent } from './shared/services/global-message-service/component/global-message.component';
+import { EjdaGlobalMessageService } from './shared/services/global-message-service/global-message.service';
 
 @Component({
   selector: 'app-root',
@@ -34,8 +35,11 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly el: ElementRef,
-    private readonly renderer: Renderer2
-  ) {}
+    private readonly renderer: Renderer2,
+    private readonly gms: EjdaGlobalMessageService
+  ) {
+    this.gms.addMessage('Warning displayed succesfully!', 5000);
+  }
 
   ngOnInit() {
     this.setHeight();

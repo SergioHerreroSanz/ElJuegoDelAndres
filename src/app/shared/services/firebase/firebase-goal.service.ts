@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
 import {
   addDoc,
   collection,
@@ -11,8 +12,17 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
-import { BehaviorSubject, from, Observable, switchMap, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  from,
+  Observable,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { EjdaGoal } from '../../models/goal.model';
+import { EjdaGlobalMessageService } from '../global-message-service/global-message.service';
 import { EjdaFirebaseService } from './firebase.service';
 
 export const GOALS_COLLECTION_NAME = 'goals';
@@ -26,7 +36,11 @@ export class EjdaFirebaseGoalsService {
     EjdaGoal[]
   >([]);
 
-  constructor(private readonly firebaseService: EjdaFirebaseService) {
+  constructor(
+    private readonly firebaseService: EjdaFirebaseService,
+    private readonly gms: EjdaGlobalMessageService,
+    private readonly transloco: TranslocoService
+  ) {
     this.goalsRef = collection(
       getFirestore(this.firebaseService.app),
       GOALS_COLLECTION_NAME
@@ -44,18 +58,28 @@ export class EjdaFirebaseGoalsService {
   }
 
   listenGoals(): void {
-    onSnapshot(this.goalsRef, (snapshot) => {
-      const players = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as EjdaGoal[];
-      this.goals$.next(players);
-    });
+    onSnapshot(
+      this.goalsRef,
+      (snapshot) => {
+        const players = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as EjdaGoal[];
+        this.goals$.next(players);
+      },
+      () => this.throwError('messages.goals.error.listen')
+    );
   }
 
-  
   createGoal(data: Partial<EjdaGoal>) {
-    from(addDoc(this.goalsRef, data)).pipe(take(1)).subscribe();
+    from(addDoc(this.goalsRef, data))
+      .pipe(
+        take(1),
+        catchError(() => this.throwError('messages.goals.error.create'))
+      )
+      .subscribe(() =>
+        this.gms.addTranslationMessage('messages.goals.success.create')
+      );
   }
 
   removeGoal(id: string) {
@@ -64,18 +88,29 @@ export class EjdaFirebaseGoalsService {
         doc(getFirestore(this.firebaseService.app), GOALS_COLLECTION_NAME, id)
       )
     )
-      .pipe(take(1))
-      .subscribe();
+      .pipe(
+        take(1),
+        catchError(() => this.throwError('messages.goals.error.remove'))
+      )
+      .subscribe(() => this.printMessage('messages.goals.success.remove'));
   }
 
   saveGoal(email: string, nickname: string, score: number): void {
-    setDoc(
-      doc(getFirestore(this.firebaseService.app), GOALS_COLLECTION_NAME, email),
-      {
-        name: nickname,
-        score: score,
-      }
-    );
+    from(
+      setDoc(
+        doc(
+          getFirestore(this.firebaseService.app),
+          GOALS_COLLECTION_NAME,
+          email
+        ),
+        { name: nickname, score: score }
+      )
+    )
+      .pipe(
+        take(1),
+        catchError(() => this.throwError('messages.goals.error.save'))
+      )
+      .subscribe(() => this.printMessage('messages.goals.success.save'));
   }
 
   modifyGoalStatus(id: string, status: string): void {
@@ -83,15 +118,21 @@ export class EjdaFirebaseGoalsService {
 
     from(getDoc(goalDocRef))
       .pipe(
-        switchMap((doc) => {
-          if (doc.exists()) {
-            return from(updateDoc(goalDocRef, { status }));
-          } else {
-            throw new Error('Goal not found while trying to modify status');
-          }
-        }),
-        take(1)
+        take(1),
+        switchMap(() => from(updateDoc(goalDocRef, { status })).pipe(take(1))),
+        catchError(() => this.throwError('messages.goals.error.modifyStatus'))
       )
-      .subscribe();
+      .subscribe(() =>
+        this.printMessage('messages.goals.success.modifyStatus')
+      );
+  }
+
+  throwError(key: string): any {
+    this.printMessage(key);
+    throw new Error(this.transloco.translate(key));
+  }
+
+  printMessage(key: string): any {
+    this.gms.addTranslationMessage(key);
   }
 }
