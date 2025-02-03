@@ -1,9 +1,15 @@
 <div class="ejda-header">
-  <ejda-language-selector class="ejda-header__language-selector"></ejda-language-selector>
+  <ejda-language-selector
+    class="ejda-header__language-selector"
+  ></ejda-language-selector>
   <div class="ejda-header__title">
     {{ "header.title" | transloco | uppercase }}
   </div>
   <ejda-user-logout class="ejda-header__logout"></ejda-user-logout>
+</div>
+
+<div class="ejda-global-messages">
+  <ejda-global-message></ejda-global-message>
 </div>
 
 <div class="ejda-body">

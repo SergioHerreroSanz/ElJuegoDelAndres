@@ -1,0 +1,10 @@
+<div *ngIf="messages$ | async as messages" class="global-messages">
+  <div
+    *ngFor="let message of messages"
+    @fadeIn
+    @fadeOut
+    class="global-messages__message"
+  >
+    {{ message }}
+  </div>
+</div>

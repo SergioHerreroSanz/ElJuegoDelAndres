@@ -1,13 +1,15 @@
 import localeEs from '@angular/common/locales/es';
 import {
-    ApplicationConfig,
-    isDevMode,
-    provideZoneChangeDetection,
+  ApplicationConfig,
+  importProvidersFrom,
+  isDevMode,
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { registerLocaleData } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideTransloco } from '@jsverse/transloco';
 import { routes } from './app.routes';
 import { TranslocoHttpLoader } from './transloco-loader';
@@ -29,5 +31,6 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    importProvidersFrom(BrowserAnimationsModule),
   ],
 };
