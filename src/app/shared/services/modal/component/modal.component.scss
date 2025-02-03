@@ -1,13 +1,8 @@
 .modal {
-  position: relative;
+  position: absolute;
   border: dashed;
   border-radius: 2rem;
-  height: -webkit-fill-available;
-  width: -webkit-fill-available;
-  height: -moz-available;
-  width: -moz-available;
   padding: 1.5rem;
-  background-color: white;
 
   &__close {
     display: flex;
@@ -29,7 +24,7 @@
 
   &__body {
     padding: 1.5rem 0;
-    height: -moz-available;
-    height: -webkit-fill-available;
+    height: 100%;
+    width: 100%;
   }
 }

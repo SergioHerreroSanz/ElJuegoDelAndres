@@ -18,6 +18,17 @@
         text-align-last: center;
       }
 
+      &-content {
+        :last-child div {
+          display: flex;
+          justify-content: center;
+          img {
+            height: 1.25rem;
+            padding: 0 0.25rem;
+          }
+        }
+      }
+
       &-actions {
         > * {
           padding-top: 0.05rem;

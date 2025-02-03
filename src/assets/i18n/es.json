@@ -7,6 +7,7 @@
     "status": "Estado",
     "missing": "Faltante",
     "save": "Guardar",
+    "delete": "Borrar",
     "goTo": {
       "all": "Ver todos",
       "scores": "Ver puntuaciones",
@@ -68,6 +69,26 @@
       "pending": "Pendiente",
       "active": "Activo",
       "completed": "Completado"
+    }
+  },
+  "messages": {
+    "success": {
+      "goals": {
+        "listen": "Algo salió mal",
+        "create": "Algo salió mal",
+        "save": "Algo salió mal",
+        "modifyStatus": "Algo salió mal",
+        "delete": "Algo salió mal"
+      }
+    },
+    "error": {
+      "goals": {
+        "listen": "Algo salió mal",
+        "create": "Algo salió mal",
+        "save": "Algo salió mal",
+        "modifyStatus": "Algo salió mal",
+        "delete": "Algo salió mal"
+      }
     }
   }
 }

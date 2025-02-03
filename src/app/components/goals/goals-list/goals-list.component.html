@@ -13,19 +13,26 @@
       <th>{{ "common.status" | transloco }}</th>
     </thead>
     <tbody class="goals__table-body">
-      <tr *ngFor="let goal of goals">
+      <tr *ngFor="let goal of goals" class="goals__table-body-content">
         <td>{{ goal.name }}</td>
         <td>{{ goal.price | money }}</td>
         <td>
-          <select (change)="changeStatus(goal.id, goal.status, $event)">
-            <option
-              *ngFor="let status of availableStatuses"
-              [selected]="status === goal.status"
-              [value]="status"
-            >
-              {{ "goals.status." + status | transloco }}
-            </option>
-          </select>
+          <div>
+            <select (change)="changeStatus(goal.id, goal.status, $event)">
+              <option
+                *ngFor="let status of availableStatuses"
+                [selected]="status === goal.status"
+                [value]="status"
+              >
+                {{ "goals.status." + status | transloco }}
+              </option>
+            </select>
+            <img
+              class="delete-icon"
+              src="https://cdn-icons-png.flaticon.com/512/3161/3161358.png"
+              alt="{{ 'common.delete' | transloco }}"
+            />
+          </div>
         </td>
       </tr>
       <tr class="goals__table-body-actions">

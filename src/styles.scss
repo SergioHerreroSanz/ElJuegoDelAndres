@@ -84,12 +84,17 @@ ejda-modal {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 25% 15%;
   background-color: rgba(0, 0, 0, 0.5);
   pointer-events: none;
   z-index: 1;
 
-  :first-child {
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    transform: translate(-50%, -50%);
     pointer-events: all;
+    background-color: white;
   }
 }
