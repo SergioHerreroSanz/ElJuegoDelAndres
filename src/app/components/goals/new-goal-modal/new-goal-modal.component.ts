@@ -11,6 +11,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { EjdaGoalStatus } from '../../../shared/models/goal.model';
 import { EjdaFirebaseGoalsService } from '../../../shared/services/firebase/firebase-goal.service';
 import { EjdaModalService } from '../../../shared/services/modal/modal.service';
+import { EjdaModalResult } from '../../../shared/services/modal/models/modals.model';
 
 @Component({
   selector: 'ejda-new-goal-modal',
@@ -37,7 +38,7 @@ export class EjdaNewGoalModalComponent {
   createGoal() {
     if (this.goalForm.valid) {
       this.firebaseGoalsService.createGoal(this.goalForm.value);
-      this.modalService.closeModal();
+      this.modalService.closeModal(EjdaModalResult.SUCCESS);
     }
   }
 }

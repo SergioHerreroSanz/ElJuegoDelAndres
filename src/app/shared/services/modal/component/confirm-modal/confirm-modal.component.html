@@ -1,0 +1,12 @@
+<div class="confirm-modal">
+  {{ "confirmModal.title" | transloco }}
+
+  <div class="confirm-modal__actions">
+    <button (click)="closeModal(modalResults.OK)">
+      {{ "common.yes" | transloco }}
+    </button>
+    <button (click)="closeModal(modalResults.CANCEL)">
+      {{ "common.no" | transloco }}
+    </button>
+  </div>
+</div>

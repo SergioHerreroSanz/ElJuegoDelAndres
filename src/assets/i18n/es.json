@@ -8,6 +8,8 @@
     "missing": "Faltante",
     "save": "Guardar",
     "delete": "Borrar",
+    "yes": "Si",
+    "no": "No",
     "goTo": {
       "all": "Ver todos",
       "scores": "Ver puntuaciones",
@@ -50,6 +52,9 @@
       "login": "Iniciar sesión",
       "register": "Registrarme"
     }
+  },
+  "confirmModal": {
+    "title": "¿Estás seguro?"
   },
   "goals": {
     "title": "Objetivos",

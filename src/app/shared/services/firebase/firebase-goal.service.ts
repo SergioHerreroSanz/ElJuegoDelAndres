@@ -3,6 +3,7 @@ import {
   addDoc,
   collection,
   CollectionReference,
+  deleteDoc,
   doc,
   getDoc,
   getFirestore,
@@ -10,14 +11,7 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
-import {
-  BehaviorSubject,
-  from,
-  Observable,
-  switchMap,
-  take,
-  tap
-} from 'rxjs';
+import { BehaviorSubject, from, Observable, switchMap, take, tap } from 'rxjs';
 import { EjdaGoal } from '../../models/goal.model';
 import { EjdaFirebaseService } from './firebase.service';
 
@@ -59,8 +53,19 @@ export class EjdaFirebaseGoalsService {
     });
   }
 
+  
   createGoal(data: Partial<EjdaGoal>) {
     from(addDoc(this.goalsRef, data)).pipe(take(1)).subscribe();
+  }
+
+  removeGoal(id: string) {
+    from(
+      deleteDoc(
+        doc(getFirestore(this.firebaseService.app), GOALS_COLLECTION_NAME, id)
+      )
+    )
+      .pipe(take(1))
+      .subscribe();
   }
 
   saveGoal(email: string, nickname: string, score: number): void {
